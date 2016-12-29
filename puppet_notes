@@ -1,0 +1,21 @@
+https://docs.puppet.com/guides/module_guides/bgtm.html
+
+## How to make puppet apply run localy
+puppet apply --modulepath=<modules_path> --hiera_config /vagrant-shared/hiera/hiera.yaml -e "penghub_profile::penghub"
+
+Note that the Hiera configuration path does not contain a = sign.
+
+## Puppet parser / syntax check
+
+puppet parser validate $file
+
+## Erb check
+
+erb -P -x -T '-' template.erb | ruby -c
+
+## you could as well use Puppet lint
+
+## Generate a puppet module
+puppet module generate test-module
+
+##
