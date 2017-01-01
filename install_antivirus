@@ -1,0 +1,62 @@
+
+
+Zu diesem Zeitpunkt gibt es keine bekannten Linux-Viren in freier Wildbahn:
+
+Die Seite https://en.wikipedia.org/wiki/Linux_malware listet knapp über 50 bekannte Viren/Trojaner/Würmer, von denen die meisten Forschungsprojekte bzw. Proof-Of-Concepts sind.
+Die verbleibenden sind deutlich über 10 Jahre alt und selbst mit viel Mühe könnte man sie vermutlich auf einem aktuellen System nicht zum Laufen bringen.
+Linux auf Desktop-Systemen ist nach wie vor offenbar kein lohnenswertes Ziel für Malware-Angriffe. (Server stehen möglicherweise auf einem anderen Blatt.)
+
+Weitere Infos z.B. unter https://help.ubuntu.com/community/Linuxvirus
+
+Trotz alldem kann man AntiVirus-Software installieren - im Allgemeinen um die Weitergabe von Windows-Viren zu vermeiden.
+In unserem Fall gibt es zusätzlich eine Konzernrichtlinie, die einen funktionierenden AntiVirus auf jedem Rechner fordert.
+
+Ein wenig intrusiver und freier AntiVirus, der der Richtlinie genügt, ist das Kommandozeilen-Tool ClamAV, für das es auch die GUI ClamTK gibt.
+Installation
+
+sudo apt-get install gnome-icon-theme-full clamtk
+
+Starten
+
+    Kommandozeile: clamtk eingeben
+    Im GUI-Menü nach clamtk suchen
+
+Konfiguration
+
+Menu "Advanced" -> Preferences
+
+Im ersten Tab ("Scanning"):
+
+    "Scan hidden files" auswählen
+    "Scan directories recursively" auswählen
+    NICHT "Scan for Potentially Unwanted Applications" auswählen (viele false positives, z.B. für chromedriver, jruby, tinymce)
+    Gute Laune? Dann "Scan files larger than 20 MB" auswählen
+
+
+Im zweiten Tab ("Startup"):
+
+    "Check for GUI updates" auswählen
+    "Remove duplicate signature databases" auswählen
+
+Automatische Scans und Virusdefinition-Updates einrichten
+
+Menu "Advanced" -> Scheduler
+
+    unter "Scan my": "Home (recommended)" auswählen
+    Stunde, Minute eintragen und Plus drücken
+    unter "Antivirus signature options": Stunde, Minute eintragen und Plus drücken
+
+Damit werden cronjobs für den Benutzer eingerichtet. Anzeige z.B. via
+
+crontab -l
+
+Initialer Scan
+
+Per "Scan" -> "Home (Quick)" den ersten Scan triggern und schauen was passiert.
+Auf meinem Rechner ist der Check unseres C-Moduls für den Varnish fehlgeschlagen und ich musste die GUI neustarten.
+Danach ging's.
+
+Ergebnisse werden am Ende in einem PopUp angezeigt, frühere Ergebnisse kann man über "History"->Datum auswählen->"View" anschauen.
+Wiederkehrende Aufgaben
+
+Regelmäßig clamtk starten und schauen, ob bei den automatischen Scans etwas gefunden wurde ("History"->Datum auswählen->"View").
