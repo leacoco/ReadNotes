@@ -1,7 +1,7 @@
 version: '2'
 services:
   ops-jenkins:
-    image: ops-jenkins
+    image: devsoftcom/home-jenkins
     restart: always
     container_name: ops-jenkins
     ports:
