@@ -1,0 +1,21 @@
+115  wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm"
+ 116  rpm -ivh jdk-8u60-linux-x64.rpm
+ 117  java -version
+ 118  export JAVA_HOME=/usr/java/jdk1.8.0_60/
+ 119  export PATH=$PATH:$JAVA_HOME
+ 120  echo $PATH
+ 121  vi /etc/profile.d/java.sh
+ 122  chmod +x /etc/profile.d/java.sh
+ 123  source /etc/profile.d/java.sh
+ 124  ls -al
+
+
+java.sh file
+
+#!/bin/bash
+
+JAVA_HOME=/usr/java/jdk1.8.0_60/bin
+PATH=$JAVA_HOME:$PATH
+export JAVA_HOME=$JAVA_HOME
+export PATH=$PATH
+export CLASSPATH=.
