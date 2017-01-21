@@ -2,7 +2,6 @@ version: '2'
 services:
   ops-jenkins:
     image: devsoftcom/home-jenkins
-    restart: always
     container_name: ops-jenkins
     ports:
     - "8080:8080"
@@ -11,7 +10,6 @@ services:
     - /home/leadel/jenkins_home:/var/jenkins_home
   ops-teamcity:
     image: devsoftcom/teamcity
-    restart: always
     container_name: ops-teamcity
     volumes:
     - /home/leadel/teamcity_data:/var/lib/teamcity
