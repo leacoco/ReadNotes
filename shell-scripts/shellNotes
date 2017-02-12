@@ -1,0 +1,89 @@
+cd `find /home/leadel/Dokumente/ /home/leadel/Schreibtisch/ -name ReadNotes`
+
+Bash made EASY:
+
+ctrl + w ====> Delete last Word
+ctrl + u ====> Delete the content from the current cursor bask to the start of the line OR copy
+ctrl + y ====> past copied from above
+alt + b and alt + f ==> move by words
+ctrl + a and ctrl + e ==> move beginning or end of line
+ctrl + k ==> clear to the end of line
+
+ATOM LINE MANIPULATION:
+
+⌘ + ] / [ Indent/outdent current line.
+⌘ + enter. Insert new line after current line.
+⌘ + shift + enter. Insert new line before current line.
+ctrl + shift + k. Delete current line.
+ctrl + ⌘ + up/down. Move current line up/down.
+shift + ⌘ + d. Duplicate current line.
+⌘ + j. Join current and next lines.
+
+history
+!n ==> to execute the command found in the history
+NOTE: n is an integer
+
+Typing a command on the commandline and you change your mind
+alt + # ==> add # at the beginning and enter it as a comment
+
+              THE XARGS TUTORIAL - http://www.softpanorama.org/Tools/xargs.shtml
+
+xargs normally reads arguments from stdin. If no command is specified, default is /bin/echo
+By default, xargs append the list of filenames to the end of the specified command
+
+USAGE:
+                xargs [options..] [command [initial-arguments]]
+
+USing xargs:
+  xargs is very powerful. You can control how many items executes per line ( -L )
+  as well as parallelism ( -P )
+NOTE: if you are note sure: do a xargs echo first
+
+example:
+  find . -name '*.py' | xargs grep <some_fundtion>
+  echo hosts | xargs -I{} ssh root@{} hostname
+
+Options:
+  -n max-args: Executes the command once for every max-args arguments passed.
+  -1# Executes once for every # lines of input
+  - I Normally xargs places input arguments at the end of command.
+    Used with -i option, xargs will replace all instance of {} with input argument.
+  Example:
+    find . -maxdepth 1 -type d -print | xargs -0 -I {} echo Directory:{}
+  Or
+  you can as well specify your own Macro substitution string
+  find . -maxdepth 1 -type d -print | xargs -0 -I "^" echo Directory:"^"
+ -t : echo each command before executing
+ -p : prompt user before executing a command
+find . -maxdepth 1 -type d -print | xargs -0 -I {} -t  -p echo Directory:{}
+-L tells xargs to consider the following line as be part of the current line, not as a seperate line.
+
+NOTES:
+
+
+        One type of hard to find errors is connected with filenames that got to Unix from Windows and contain
+        blanks. Because file names can contain quotes, backslashes, blank characters, and even newlines,
+        it is not safe to process them using xargs  in its default mode of operation.
+        Also since most files' names do not contain blanks, this problem occurs only infrequently.
+        It is safer to use ‘find -print0’ or ‘find -fprint0’ and process the output by giving the ‘-0’ or ‘--null’ option to GNU xargs,
+        GNU tar, GNU cpio, or perl. The locate  command also has a ‘-0’ or ‘--null’ option which does the same thing.
+
+        find $HOME -name '*.c' -print | xargs    grep -l sprintf
+
+        However, if the command needs to have its standard input be a terminal (less, for example),
+        you have to use the shell command substitution method or use the ‘--arg-file’ option of xargs.
+        The xargs  command stops if  the command exits with a status of 255 (this will cause xargs to
+        issue an error message and stop). If you run script  via xrags it make sence to ensure that any
+        unrecoverable error produced error code 255. In case of utilities it ma sence to write an script that can serve as envelope and ensure the same behavior.
+
+
+Example using exec and xargs
+
+    find . -type f -exec grep -iH '/bin/bash' {} \;
+    find . -type f -print | xargs grep -il '/bin/bash' ==> This is much faster: Note -l in grep prints only
+    the names of files with matching lines. Does not repeat the names of file when the pattern is found more than once
+
+
+    This combination is useful if you need to operate on filenames with spaces. If you add option -print0  to find  command and option -0 xargs  command, you can avoid the danger to processing wrong file(s) xargs:
+
+        find /mnt/zip -name "*prefs copy" -print0 | xargs>    -0 rm
