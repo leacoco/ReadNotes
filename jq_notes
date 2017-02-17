@@ -1,0 +1,70 @@
+Take a sample json file : example.json
+
+{
+	"firstname": "kolo",
+	"lastname": "mongo",
+	"likes": [
+		"Food",
+		"Cars",
+		"Fucking"
+	],
+	"kids": [
+    {
+		  "firstname": "kolo-boy",
+		  "lastname": "mongo-boy"
+	  }, {
+		  "firstname": "kolo-girl",
+		  "lastname": "mongo-girl"
+	  }
+  ]
+}
+
+==> you can get the type
+cat example.json | jq type
+
+==> you can get the length of the object
+cat example.json | jq length
+
+==> or get both type and length
+cat example.json | jq 'type, length'
+
+==> you can get the type of kids value in the object
+cat example.json | jq ' .kids | type, length '    OUTPUT: array, 2
+cat example.json | jq ' .kids[0] | type, length'  OUTPUT: object, 2
+
+We can use square brackets to unwrap layers of the input. I think of them as 'unwrappy brackets' when I see them in jq:
+>> cat example.json | jq '.[]'
+This will give you the same output as: cat example.json | jq '.'
+And you can as well get the type and length as above
+>> cat example.json | jq '.[] | type, length'
+
+You can use some shell tools to help interpret the output
+>> cat example.json | jq '.[] | type,length' | sort | uniq -c
+
+[{
+	"firstname": "kolo",
+	"lastname": "mongo",
+	"likes": [
+		"Food",
+		"Cars",
+		"Fucking"
+	],
+	"kids": [
+    {
+		  "firstname": "kolo-boy",
+		  "lastname": "mongo-boy"
+	  }, {
+		  "firstname": "kolo-girl",
+		  "lastname": "mongo-girl"
+	  }
+  ]
+}]
+
+The Above json will give you an array of one object.
+==> get the length
+>> cat example.json | jq '. | type, length'    OUTPUT: Array, 1
+>> cat example.json | jq '.[] | type, length'    OUTPUT: Object, 4
+
+You can as well get all the keys in the object
+>> cat example.json | jq '.[] | keys'
+>> cat example.json | jq '.[] | keys | length'   ## get the length of the keys
