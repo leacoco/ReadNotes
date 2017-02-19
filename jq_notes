@@ -68,3 +68,6 @@ The Above json will give you an array of one object.
 You can as well get all the keys in the object
 >> cat example.json | jq '.[] | keys'
 >> cat example.json | jq '.[] | keys | length'   ## get the length of the keys
+
+
+cat example.json | jq '.[].kids'
