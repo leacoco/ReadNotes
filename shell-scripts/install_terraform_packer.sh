@@ -4,6 +4,7 @@
 
 # Get URLs for most recent versions
 terraform_url=$(curl --silent https://releases.hashicorp.com/index.json | jq '{terraform}' | egrep "linux.*64" | sort -rh | head -1 | awk -F[\"] '{print $4}')
+#curl -s  https://releases.hashicorp.com/index.json | jq '.[] | select (.name == "terraform")'
 packer_url=$(curl --silent https://releases.hashicorp.com/index.json | jq '{packer}' | egrep "linux.*64" | sort -rh | head -1 | awk -F[\"] '{print $4}')
 
 # Create a move into directory.
