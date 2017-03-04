@@ -3,22 +3,23 @@ services:
   ops-jenkins:
     image: devsoftcom/home-jenkins
     container_name: ops-jenkins
+    restart: always
     ports:
     - "8080:8080"
     - "50000:50000"
     volumes:
     - /home/leadel/jenkins_home:/var/jenkins_home
-  ops-teamcity:
-    image: devsoftcom/teamcity
-    container_name: ops-teamcity
-    volumes:
-    - /home/leadel/teamcity_data:/var/lib/teamcity
-    ports:
-    - "8111:8111"
-  ops-teamcity-agent:
-    image: devsoftcom/teamcity-agent
-    container_name: ops-teamcity-agent
-    links:
-    -  ops-teamcity:ops-teamcity
-    environment:
-    - TEAMCITY_SERVER=http://ops-teamcity:8111
+#  ops-teamcity:
+#    image: devsoftcom/teamcity
+#    container_name: ops-teamcity
+#    volumes:
+#    - /home/leadel/teamcity_data:/var/lib/teamcity
+#    ports:
+#    - "8111:8111"
+#  ops-teamcity-agent:
+#    image: devsoftcom/teamcity-agent
+#    container_name: ops-teamcity-agent
+#    links:
+#    -  ops-teamcity:ops-teamcity
+#    environment:
+#    - TEAMCITY_SERVER=http://ops-teamcity:8111
