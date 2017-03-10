@@ -8,7 +8,9 @@ services:
     - "8080:8080"
     - "50000:50000"
     volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
     - /home/leadel/jenkins_home:/var/jenkins_home
+    - /usr/bin/docker:/usr/bin/docker
 #  ops-teamcity:
 #    image: devsoftcom/teamcity
 #    container_name: ops-teamcity
