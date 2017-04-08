@@ -134,8 +134,8 @@ actions to be taken before any line are read, and after the line is read.
 
 ############### Some bash best practice ############################################################################
 
-Use long options (logger --priority vs logger -p). If you're on cli, abbreviations make sense for efficiency. 
-but when you're writing reusable scripts a few extra keystrokes will pay off in readability and avoid ventures into man pages in the future 
+Use long options (logger --priority vs logger -p). If you're on cli, abbreviations make sense for efficiency.
+but when you're writing reusable scripts a few extra keystrokes will pay off in readability and avoid ventures into man pages in the future
 by you or your collaborators.
 
     Use set -o errexit (a.k.a. set -e) to make your script exit when a command fails.
@@ -146,14 +146,14 @@ by you or your collaborators.
 
     Use set -o xtrace (a.k.a set -x) to trace what gets executed. Useful for debugging.
 
-    Use set -o pipefail in scripts to catch mysqldump fails in e.g. mysqldump |gzip. 
+    Use set -o pipefail in scripts to catch mysqldump fails in e.g. mysqldump |gzip.
     The exit status of the last command that threw a non-zero exit code is returned.
 
     #!/usr/bin/env bash is more portable than #!/bin/bash.
 
     Avoid using #!/usr/bin/env bash -e (vs set -e), because when someone runs your script as bash ./script.sh, the exit on error will be ignored.
 
-    Surround your variables with {}. Otherwise bash will try to access the $ENVIRONMENT_app variable in /srv/$ENVIRONMENT_app, 
+    Surround your variables with {}. Otherwise bash will try to access the $ENVIRONMENT_app variable in /srv/$ENVIRONMENT_app,
     whereas you probably intended /srv/${ENVIRONMENT}_app.
 
     You don't need two equal signs when checking if [ "${NAME}" = "Kevin" ].
@@ -182,4 +182,12 @@ __root="$(cd "$(dirname "${__dir}")" && pwd)" # <-- change this as it depends on
 
 arg1="${1:-}"
 
+##################### POXIS shell variable substitution:
 
+${var%Pattern} Remove from $var the shortest part of $Pattern that matches the back end of $var.
+${var%%Pattern} Remove from $var the longest part of $Pattern that matches the back end of $var.
+
+So if var="abc def ghi jkl"
+
+echo "${var% *}" # will echo "abc def ghi"
+echo "${var%% *}" # will echo "abc"
