@@ -1,0 +1,39 @@
+https://jenkins.io/doc/book/managing/cli/
+
+Learn using the Jenkins-cli command from the commandine
+
+. First Download the jenkins-cli from your jenkins
+- make sure you configure jenkins to have the corresponding keys ( public and private keys )
+
+From the commandline
+  run: java -jar jenkins-cli.jar -s http://192.168.0.17:8080 -i ~/.ssh/id_rsa <command>
+    command could be anything like
+    - help
+    - restart
+    
+## Using the Cli over SSH
+
+The commandline interface can be accessed over ssh or with the jenkins cli client ( .jar file)
+
+# In a new Jenkins installation, the ssh service is disabled by default.
+# admins have to set a specific port or ask jenkins to specify a random generated port
+ get the port picked by jenkins
+ 
+ curl -Lv http://Jenkins_URL/login 2>&1 | grep 'X-SSH-Endpoint'
+ 
+ Get the Console output of a Job:
+ 
+ java -jar jenkins-cli.jar -s http://192.168.0.17:8080 -i ~/.ssh/id_rsa console test-tools
+ 
+ 
+ HTTP Connection Mode
+
+ ## Authentication is preferable with an -auth option which takes a username:apitoken
+ ## Api token can be gotten from /me/configure 
+ 
+ java -jar jenkins-cli.jar [-s JENKINS_URL] -auth kohsuke:abc1234ffe4a command ...
+ 
+## Passwords are also accepted:
+java -jar jenkins-cli.jar -s http://192.168.0.17:8080 console test-tools --username <username> --password <pass>
+## You can also procees with @ to load the content from a file
+ java -jar jenkins-cli.jar [-s JENKINS_URL] -auth @/home/kohsuke/.jenkins-cli command ...
