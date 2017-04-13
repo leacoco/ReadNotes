@@ -1,0 +1,33 @@
+######## Dockerfile Syntax and Commands  ##########
+
+
+ADD - Syntax:
+  ADD [source directory or URL] [destination directory]
+CMD - Syntax:
+  CMD application "argument", "argument", ..
+ENTRYPOINT - Syntax:
+  ENTRYPOINT application "argument", "argument", ..
+ENV - Syntax:
+  ENV key value
+EXPOSE - Syntax:
+  EXPOSE [port]
+FROM - Syntax:
+  FROM [image name]
+RUN - Syntax:
+  RUN [command]
+MAINTAINER - Syntax:
+  MAINTAINER [name]
+USER - Syntax:
+  USER [UID]
+VOLUME - Syntax:
+  VOLUME ["/dir_1", "/dir_2" ..]
+WORKDIR - Syntax:
+  WORKDIR /path
+PUBLISH - Syntax:
+  To expose ports to the host, at runtime, use the -p flag or the -P flag.
+
+
+#### Get the PID of a running container
+PID=$(docker inspect --format {{.State.Pid}} <container_name_or_ID>)
+
+#### 
