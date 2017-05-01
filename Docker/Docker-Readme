@@ -30,4 +30,24 @@ PUBLISH - Syntax:
 #### Get the PID of a running container
 PID=$(docker inspect --format {{.State.Pid}} <container_name_or_ID>)
 
-#### 
+#### Docker configuration in Ubuntu
+
+The docker configuration can be found under:
+  vim /lib/systemd/system/docker.service
+Note:
+ExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=1048576
+
+##To enable the Docker Remote API, add the following line to the file /lib/systemd/system/docker.service
+ExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243
+
+After you do a:
+systemctl daemon-reload
+systemctl restart docker
+
+## When Docker is restarted, it listens for HTTP API requests on port 4243
+## To get all the messages, you can issue the GET request:
+http://<docker host>:4243/containers/<container name>/logs?stdout=1&stderr=1
+
+## 
