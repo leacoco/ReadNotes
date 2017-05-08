@@ -1,0 +1,46 @@
+Some BAD ASS Groovy stuffs you can do on the script console
+###########################################################
+
+Example:
+println "uname -a".execute().text
+println "pwd".execute().text
+println "whoami".execute().text
+println (['ls', '/tmp folder with space'].execute().text)
+
+NOTE: the last command will allow you to list out contents
+of folders with spaces ny turning command into array of strings
+You do not have to escape any space.
+
+The Disadvantage of the commands above, you cannot chanin commands together
+
+BETTER OPTION:
+println new ProcessBuilder( 'sh', '-c', 'du -h --max-depth=1 /var/foo/bar/ | sort -hr').redirectErrorStream(true).start().text
+--------------------------------------
+
+Backup Container Aliases
+
+# backup files from a docker volume into /tmp/backup.tar.gz
+function docker-volume-backup-compressed() {
+  docker run --rm -v /tmp:/backup --volumes-from "$1" debian:jessie tar -czvf /backup/backup.tar.gz "${@:2}"
+}
+# restore files from /tmp/backup.tar.gz into a docker volume
+function docker-volume-restore-compressed() {
+  docker run --rm -v /tmp:/backup --volumes-from "$1" debian:jessie tar -xzvf /backup/backup.tar.gz "${@:2}"
+  echo "Double checking files..."
+  docker run --rm -v /tmp:/backup --volumes-from "$1" debian:jessie ls -lh "${@:2}"
+}
+# backup files from a docker volume into /tmp/backup.tar
+function docker-volume-backup() {
+  docker run --rm -v /tmp:/backup --volumes-from "$1" busybox tar -cvf /backup/backup.tar "${@:2}"
+}
+# restore files from /tmp/backup.tar into a docker volume
+function docker-volume-restore() {
+  docker run --rm -v /tmp:/backup --volumes-from "$1" busybox tar -xvf /backup/backup.tar "${@:2}"
+  echo "Double checking files..."
+  docker run --rm -v /tmp:/backup --volumes-from "$1" busybox ls -lh "${@:2}"
+}
+
+------------------------------------------------------------------
+--handlerCountStartup    = set the no of worker threads to spawn at startup. Default is 5
+--handlerCountMax        = set the max no of worker threads to allow. Default is 300
+--handlerCountMaxIdle    = set the max no of idle worker threads to allow. Default is 50

@@ -1,0 +1,51 @@
+#!/bin/sh
+# only working for networks up to 0.0.0.0/24
+# Declan Forde - Increased the range up to 0.0.0.0/16 networks
+
+
+NETWORKS="127.0.0.0/30 127.0.0.0/29 127.0.0.0/28 127.0.0.0/27 127.0.0.0/26 127.0.0.0/25 127.0.0.0/24 127.0.0.0/23 127.0.0.0/22 127.0.0.0/21 127.0.0.0/16"
+
+for net in ${NETWORKS}
+do
+  base=${net%/*}
+  bits=$((32 - ${net#*/}))
+
+  abc=${base%.*}
+  ab=${abc%.*}
+  c=${abc##*.}
+  d=${base##*.}
+
+  if [ $bits -gt 8 ] && [ $bits -le 16 ]
+  then
+    netbits=$((bits - 8))
+    bits=8
+  else
+    netbits=0
+  fi
+
+  netcount=0
+  while [ $netcount -lt $((2 ** netbits)) ]
+  do
+    count=0
+    while [ $count -lt $((2 ** bits)) ]
+    do
+      echo "$ab.$c.$((d + count))"
+      echo "$ab.$c.$((d + count)) ssh-rsa AAAAB3NzaC1yc." >>~/.ssh/known_hosts
+    count=$((count + 1))
+    done
+    netcount=$((netcount + 1))
+    c=$((c + 1))
+  done
+done
+
+#################################################################################
+
+for net in 207.97.227.224/27 173.203.140.192/27 204.232.175.64/27 72.4.117.96/27 192.30.252.0/24 192.30.252.1/24 192.30.252.2/24 192.30.252.3/24; do
+  base=${net%/*}; d=${base##*.}; abc=${base%.*}
+  bits=$((32 - ${net#*/}))
+  e=0
+  while [ $e -lt $((2 ** bits) ]; do
+    echo "$abc.$((d + e)) ssh-rsa AAAAB3NzaC1yc…" >>~/.ssh/known_hosts
+    e=$((e + 1))
+  done
+done

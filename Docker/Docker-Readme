@@ -51,3 +51,12 @@ systemctl restart docker
 http://<docker host>:4243/containers/<container name>/logs?stdout=1&stderr=1
 
 ## 
+
+
+
+        The ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag.
+
+        The ENV instruction sets the environment variable <key> to the value <value>.
+        The environment variables set using ENV will persist when a container is run from the resulting image.
+
+
