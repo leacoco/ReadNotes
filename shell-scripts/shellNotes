@@ -9,6 +9,8 @@ alt + b and alt + f ==> move by words
 ctrl + a and ctrl + e ==> move beginning or end of line
 ctrl + k ==> clear to the end of line
 
+Get the IP of a Interface
+  ip_addr=$(ip -o -4 addr list <interface> | head -n1 | awk '{print $4}' | cut -d/ -f1)
 ATOM LINE MANIPULATION:
 
 ⌘ + ] / [ Indent/outdent current line.

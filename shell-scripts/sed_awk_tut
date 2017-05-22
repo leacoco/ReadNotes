@@ -11,3 +11,23 @@ Syntax:
 
   awk ' instructions ' files
   awk -f script files
+
+Using & to match String
+
+echo "Leadel is a Boy" | sed 's/Leadel/(&)/'
+Then above command will print (Leadel) is a Boy
+
+echo "Leadel is a Boy" | sed 's/Leadel/(&) &/'
+Output: (Leadel) Leadel is a Boy
+
+Using \1 to keep part of the pattern
+
+NOTE:
+  \1 is the first remembered pattern
+  \2 is the second remembered pattern
+
+example:
+  To keep the first word of a line, and delete the rest of the line, Mark the important
+  part with parenthesis
+
+sed 's/\([a-z)*\).*/\1/'
