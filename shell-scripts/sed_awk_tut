@@ -31,3 +31,11 @@ example:
   part with parenthesis
 
 sed 's/\([a-z)*\).*/\1/'
+----------------------------------------------
+Comment a line
+	sed -i '^search_word/s/^/#/' filename
+---------------------------------------------
+Delete a word
+	sed -i '/word_to_delete/d' filename
+---------------------------------------------
+
