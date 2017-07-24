@@ -1,0 +1,28 @@
+Sure! Just remind it to me. But I don't expect you all know how to calculate binary numbers: it is enough if you understand what is an IP address and how to express a range of them. You already know that a computer can have one or multiple IPs and a human will most of the time represent it using four decimal numbers:
+
+
+1.2.3.4
+
+
+Each decimal number goes from 0 to 255 (well, not exactly, but allow me to simplify it). That is basically because it saved in the memory of the computer with a single byte. A byte (a number from 0 to 255) can be represented with eight 0 and 1 in binary, from 00000000 (for 0) to 11111111 (for 255). So the previous address can be represented as
+
+
+00000001 00000010 00000011 00000100
+
+As you can see, you use 32 binary digits to represent the same four bytes in binary notation. Now let's say you want to express all the ip addresses that start with 1.2, like 1.2.8.9 or 1.2.100.80. In this case, you just care about the first two bytes (1.2), the rest does not matter. You are looking for this pattern:
+
+
+00000001 00000010 ******** *******
+
+
+But writing such a long expression is cumbersome so you use the convention of just telling the first two numbers (2 bytes, sixteen bits) and filling the rest of the address with zeros. Then you append a /16 expressing that you only care about the first sixteen bytes, the 0 are there only to format the number nicely:
+
+
+1.2.0.0/16
+
+If you want to represent all the addresses that start  with a "1" you will write something like this:
+
+
+1.0.0.0/8
+
+saying that only the first number (the first byte, the first EIGHT bits in decimal) matters.
