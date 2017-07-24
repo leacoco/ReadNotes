@@ -1,0 +1,16 @@
+docker swarm init
+SWARM_TOKEN=$(docker swarm join-token -q worker)
+SWARM_MASTER=$(docker info | grep -w 'Node Address' | awk '{print $3}')
+NUM_WORKERS=3
+for i in $(seq "${NUM_WORKERS}"); do
+  docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
+  docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
+done
+docker node ls
+
+# Next step doesn't works in git bash
+docker run -it -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer
+
+docker node update --label-add type=public moby
+docker service create --name fe --publish 80:80 --constraint node.labels.type==public yeasy/simple-web
+# open localhost:80 to see the application
