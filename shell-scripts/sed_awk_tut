@@ -39,3 +39,79 @@ Delete a word
 	sed -i '/word_to_delete/d' filename
 ---------------------------------------------
 
+## Using the Sed Build in Variables: FS, OFS, RS, ORS, NR, NF, FILENAME, FNR
+
+AWK FS: File Seperator
+  AWk reads and parses each line from input based on whitespace char by default
+  and set the variable $1,$2 etc. FS is used to set the field seperator for each record.
+
+  + You can use input field seperator(FS) using two options
+  1- Using -F command line option
+  2- FS can be set like normal variable
+
+Syntax:
+  awk -F 'FS' 'command' inputfilename
+  or
+  awk 'BEGIN{FS="FS";}'
+
+  $ cat etc_passwd.awk
+  BEGIN{
+  FS=":";
+  print "Name\tUserID\tGroupID\tHomeDirectory";
+  }
+  {
+  	print $1"\t"$3"\t"$4"\t"$6;
+  }
+  END {
+  	print NR,"Records Processed";
+  }
+
+  awk -f etc_passwd.awk /etc/passwd
+
+
+AWK OFS: Output Field Seperator
+OFS is equivalent to FS variable. By default awk OFS is a single space char.
+Example:
+  awk -F':' '{print $3,$4;}' /etc/passwd' ## checkout the output
+NOTE: the print statement "," concatenates two params with a space which is the value
+of awk OFS by default. Using OFS
+
+  awk -F':' 'BEGIN{OFS="=";}'  '{print $3,$4;}' /etc/passwd
+
+AWK RS: Record Seperator
+  RS defines a line.
+>>  example cat student.txt
+
+  Leadel
+  1234
+  2233
+
+  Nicole
+  33214
+  334533
+
+>>  cat student.awk
+  BEGIN {
+    RS="\n\n";
+    FS="\n";
+  }
+  {
+    print $1, $2;
+  }
+
+>> awk -f student.awk student.txt
+Output:
+   Leadel 1234
+   Nicole 33214
+
+ORS: Output Record seperator
+> awk 'BEGIN{ORS="=";} {print;}' marks
+
+
+AWK NR : Number of Records
+
+>> awk '{print "Processing RECORD - ", NR;}END {print NR,"Student Records are Processed"}' mark
+
+http://www.thegeekstuff.com/2010/01/8-powerful-awk-built-in-variables-fs-ofs-rs-ors-nr-nf-filename-fnr/?ref=binfind.com/web
+
+http://www.thegeekstuff.com/tag/awk-tutorial-examples/

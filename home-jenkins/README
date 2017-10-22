@@ -44,3 +44,10 @@ function docker-volume-restore() {
 --handlerCountStartup    = set the no of worker threads to spawn at startup. Default is 5
 --handlerCountMax        = set the max no of worker threads to allow. Default is 300
 --handlerCountMaxIdle    = set the max no of idle worker threads to allow. Default is 50
+---------------------------------------------------
+
+Docker System
+> docker system df #docker disk usage
+> docker system events #events of docker
+> docker system info # info
+> docker system prune #remove unused data
