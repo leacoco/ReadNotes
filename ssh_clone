@@ -1,0 +1,4 @@
+#!/bin/bash
+eval `ssh-agent -s`
+ssh-add ${JENKINS_HOME}/.ssh/id_rsa
+git clone git@<host>:ops-integration/jenkins-backup jenkins-backup
