@@ -112,7 +112,44 @@ AWK NR : Number of Records
 
 >> awk '{print "Processing RECORD - ", NR;}END {print NR,"Student Records are Processed"}' mark
 
+AWK NF : Number of fields in a record
+
 http://www.thegeekstuff.com/2010/01/8-powerful-awk-built-in-variables-fs-ofs-rs-ors-nr-nf-filename-fnr/?ref=binfind.com/web
 
 http://www.thegeekstuff.com/tag/awk-tutorial-examples/
 https://www.tecmint.com/category/awk-command/page/2/
+
+## AWK and Regular expressions
+Regular expression can be defined as a string that represent a sequence of characters
+- Meta characters
+  - (.) => matches a single char EXCEPT a NEWLINE
+  - (*) => matches zero or more existences of the immediate char
+  - [ character(s) ] => matches any one of the chars specified in char
+    use (-) to mean a range of chars eg [a-f] or [1-5]
+  - ^ => mactches beginning of a line in a file
+  - $ => matches end of line in a file
+  - \ => escape character
+
+Syntax:
+  awk 'script' filename
+  # script is in the form '/pattern/ {action}' where pattern is a regex and action is
+  what the awk will do when it finds the given pattern in the line
+
+example:
+  awk '// {print}' /etc/hosts
+
+## Using printf to format the output
+
+awk '// {printf "%-10s %s\n", $2, $3}' somefile.txt
+
+
+## Example using OPERATORS
+
+cat names.txt
+1. Leadel Ngalame m
+2. Nicole Baby f
+3. Jamie Kolomongo m
+
+## Use variables firstname and lastname to store the first and lastnames
+
+>> awk '/Leadel/ { firstname=$2; lastname=$3; print firstname, lastname;}' names.txt
