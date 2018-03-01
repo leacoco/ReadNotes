@@ -20,3 +20,5 @@ echo ${number#*.}  ==> 2.3.4
 
 Get the IP address of your System
 >> ip route get 8.8.8.8 | awk 'NR==1 {print $NF}'
+
+
